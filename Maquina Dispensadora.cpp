@@ -7,88 +7,104 @@ using namespace std;
 Maquina::Maquina(){
 }
 
-void Maquina::encender(){
+bool Maquina::encender(){
+	cout<<"Encendiendo...";
 	interruptor=true;
+	return interruptor;
 }
 
 void Maquina::mostrarInfo(){
-	cout<<"\t Expendedora Bienestar"<<endl;
-	cout<<"1- Pepsi (1L) \t Costo: $15"<<endl;
-	cout<<"2- CocaCola (1L) \tCosto: $20"<<endl;
-	cout<<"3- Fanta (1L) \t Costo: $15"<<endl;
-	cout<<"4- Sabritas \t Costo: $10"<<endl;
-	cout<<"5- Chetos \t Costo: $8"<<endl;
-	cout<<"6- Takis \t Costo: $8"<<endl;
+	cout<<"\n\tExpendedora Bienestar"<<endl;
+	cout<<"1- Pepsi(1L) Costo: $15"<<endl;
+	cout<<"2- CocaCola(1L) Costo: $20"<<endl;
+	cout<<"3- Fanta(1L) Costo: $15"<<endl;
+	cout<<"4- Sabritas Costo: $10"<<endl;
+	cout<<"5- Chetos Costo: $8"<<endl;
+	cout<<"6- Takis Costo: $8"<<endl;
 }
 
-void Maquina::leerProducto(){
-	cout<<"\n Selecciona producto: ";
+int Maquina::leerProducto(){
+	cout<<"\nSelecciona producto: ";
 	cin>>teclado;
-	cout<<endl;
-	switch(teclado){
-		case 1: cout<<"Se ha seleccionado Pepsi (1L)"<<endl;
-		costo=15; break;
-		case 2: cout<<"Se ha seleccionado CocaCola (1L)"<<endl;
-		costo=20; break;
-		case 3: cout<<"Se ha seleccionado Fanta (1L)"<<endl;
-		costo=15; break;
-		case 4: 	cout<<"Ha seleccionado Sabritas"<<endl;
-		costo=10; break;
-		case 5: cout<<"Ha seleccionado Chetos"<<endl;
-		costo=8; break;
-		case 6: cout<<"Ha seleccionado Takis"<<endl;
-		costo=8; break;
-		default: cout<<"Opcion incorrecta"<<endl;
-		teclado=0; break;
+	if(teclado==1){
+		cout<<"Selecciono Pepsi(1L)"<<endl;
+		costo=15;
 	}
+	else if(teclado==2){
+		cout<<"Selecciono CocaCola(1L)"<<endl;
+		costo=20;
+	}
+	else if(teclado==3){
+		cout<<"Selecciono Fanta(1L)"<<endl;
+		costo=15;
+	}
+	else if(teclado==4){
+		cout<<"Selecciono Sabritas"<<endl;
+		costo=10;
+	}
+	else if(teclado==5){
+		cout<<"Selecciono Chetos"<<endl;
+		costo=8;
+	}
+	else if(teclado==6){
+		cout<<"Selecciono Takis"<<endl;
+		costo=8;
+	}
+	else{
+		cout<<"Opcion incorrecta"<<endl;
+		teclado=0;
+	}
+	return teclado;
 }
 
-void Maquina::leerDinero(){
-	if(teclado!=0){
-		cout<<"\n Deposite dinero: ";
-		cin>>dineroDepositado;
-		if(dineroDepositado>=costo){
-			cout<<"Confirmado"<<endl;
-		}else{
-			cout<<"\t Dinero insuficiente"<<endl;
-		}
+int Maquina::leerDinero(){
+	cout<<"\nDeposite dinero: ";
+	cin>>dineroDepositado;
+	if(dineroDepositado>=costo){
+		cout<<"Confirmado"<<endl;
+	}else{
+		cout<<"Dinero insuficiente"<<endl;
+		teclado=0;
 	}
+	return teclado;
 }
 
 void Maquina::regresarCambio(){
-	if(teclado!=0){
-		if(dineroDepositado>=costo){
-			cambio=dineroDepositado-costo;
-			cout<<"Cambio: $"<<cambio<<endl;
-		}
+	if(dineroDepositado>=costo){
+		cambio=dineroDepositado-costo;
+		cout<<"Cambio: $"<<cambio<<endl;
 	}
 }
 
 void Maquina::bajarProducto(){
-	if(teclado!=0){
-		cout<<"Bajando produto"<<endl;
-	}
+	cout<<"Bajando produto"<<endl;
 }
 
-void Maquina::apagar(){
+bool Maquina::apagar(){
 	interruptor=false;
+	return interruptor;
 }
 
 void Maquina::mensaje(){
-	if(teclado!=0){
-		cout<<"Gracias por su compra"<<endl;
-	}
+	cout<<"Gracias por su compra"<<endl;
 }
 
 int main(){
-	Maquina m;
+	Maquina m=Maquina();
 	m.encender();
-	m.mostrarInfo();
-	m.leerProducto();
-	m.leerDinero();
-	m.regresarCambio();
-	m.bajarProducto();
-	m.mensaje();
+	do{
+		m.mostrarInfo(); //Bien
+		if(m.leerProducto()!=0){ //Bien
+			if(m.leerDinero()!=0){
+				m.regresarCambio();
+				m.bajarProducto();
+				m.mensaje();
+			}
+		}	                       	
+	}while(m.apagar()==false);
+	
+	
+	
 	system("pause");
 	return 0;
 }
